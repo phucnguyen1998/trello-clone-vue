@@ -1,5 +1,5 @@
 <template>
-  <section class="lists-container">
+  <a-layout class="lists-container">
     <div :key="index.toString()" v-for="(list, index) in lists" class="list">
       <h3 class="list-title">
         {{ list.title }}
@@ -10,7 +10,7 @@
 
       <!-- <button class="add-card-btn btn">Add a card</button> -->
     </div>
-    <form @submit.prevent="addList">
+    <form v-if="lists.length > 0" @submit.prevent="addList">
       <input
         type="text"
         v-model="title"
@@ -20,8 +20,16 @@
       />
     </form>
 
-    <!-- <button class="add-list-btn btn">Add a list</button> -->
-  </section>
+    <form v-if="lists.length === 0" @submit.prevent="addBoard">
+      <input
+        type="text"
+        v-model="name"
+        name="name"
+        placeholder="Add a board"
+        class="add-list-btn btn"
+      />
+    </form>
+  </a-layout>
 </template>
 
 <script>
@@ -33,6 +41,7 @@ export default {
   data() {
     return {
       title: "",
+      name: "",
     };
   },
   props: {
@@ -54,6 +63,17 @@ export default {
       this.$emit("add-list", newList);
 
       this.title = "";
+    },
+    addBoard() {
+      if (!this.name) {
+        alert("Please add name of Board !");
+        return;
+      }
+      let newBoard = {
+        name: this.name,
+      };
+      this.$emit("add-board", newBoard);
+      this.name = "";
     },
     deleteList(id) {
       API.deleteListById(id)

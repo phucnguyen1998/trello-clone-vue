@@ -11,6 +11,12 @@ export default class Api {
         )
     }
 
+    static async addBoard(body){
+        return await axios.post(urlConst.baseURL + `/api/board`,body,{
+            headers:{}
+        })
+    }
+
     static async getBoardById(id){
         return await axios.get(urlConst.baseURL+`/api/board/${id}`,
             {
@@ -33,6 +39,12 @@ export default class Api {
 
     static async deleteListById(id){
         return await axios.delete(urlConst.baseURL + `/api/list/${id}`,{
+            headers:{}
+        })
+    }
+
+    static async deleteCardById(id){
+        return await axios.delete(urlConst.baseURL+`/api/card/${id}`,{
             headers:{}
         })
     }

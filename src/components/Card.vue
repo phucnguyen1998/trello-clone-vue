@@ -6,7 +6,7 @@
       v-for="(card, index) in cards"
     >
       {{ card.text }}
-      <i class="fas fa-times fa-time-zindex"></i>
+      <i class="fas fa-times fa-time-zindex" @click="deleteCard(card.id)"></i>
     </li>
   </ul>
 
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       text: "",
+      CloneCard: this.cards
     };
   },
   props: {
@@ -44,7 +45,6 @@ export default {
       let newCard = {
         text: this.text,
       };
-
       API.addCardByIdList(this.listId, newCard)
       .then(res => {
           this.cards = this.cards.push(res.data)
@@ -53,6 +53,13 @@ export default {
       })
       this.text = "";
     },
+    deleteCard(id){
+      API.deleteCardById(id).then(res => {
+        alert("Delete List Success");
+          let index = this.cards.map((item) => item.id).indexOf(id);
+          this.cards = this.cards.splice(index, 1);
+      })
+    }
   }
 
 };

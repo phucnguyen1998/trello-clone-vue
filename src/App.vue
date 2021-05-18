@@ -4,6 +4,7 @@
   <Lists 
   :lists="lists"
   @add-list="addList" 
+  @add-board="addBoard"
   />
 </template>
 
@@ -55,6 +56,15 @@ export default {
       API.addListByIdBoard(this.boardId, newList)
         .then((res) => {
           this.lists = [...this.lists, res.data];
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addBoard(newBoard){
+      API.addBoard(newBoard)
+      .then((res) => {
+          this.boards = [...this.boards, res.data];
         })
         .catch((err) => {
           console.log(err);
